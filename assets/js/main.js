@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
      3. Scroll reveal animation
   -------------------------------------------------- */
   const revealElements = document.querySelectorAll(
-    '.feature-card, .stat-card, .contact-card, .about-visual, .check-icon'
+    '.feature-card, .stat-card, .contact-card, .about-visual, .check-icon, .carousel-window-frame, .discord-box'
   );
 
   revealElements.forEach(el => el.classList.add('reveal'));
