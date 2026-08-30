@@ -216,68 +216,38 @@
         <div class="col-lg-8 text-center mb-5">
           <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 px-3 py-2 mb-3">Contatti</span>
           <h2 class="display-5 fw-bold">Parliamo</h2>
-          <p class="text-secondary lead">Hai domande, idee o vuoi contribuire al progetto? Siamo sempre disponibili.</p>
-        </div>
-      </div>
-      <div class="row g-4 justify-content-center mb-5">
-        <div class="col-md-4">
-          <div class="contact-card text-center p-4 rounded-4 border border-secondary border-opacity-25 h-100">
-            <i class="bi bi-github fs-1 text-primary mb-3 d-block"></i>
-            <h6 class="fw-semibold mb-2">GitHub</h6>
-            <p class="text-secondary small mb-3">Apri un issue o contribuisci con una Pull Request.</p>
-            <a href="https://github.com/" target="_blank" class="btn btn-sm btn-outline-primary">Vai al repo</a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="contact-card text-center p-4 rounded-4 border border-secondary border-opacity-25 h-100">
-            <i class="bi bi-envelope-fill fs-1 text-success mb-3 d-block"></i>
-            <h6 class="fw-semibold mb-2">Email</h6>
-            <p class="text-secondary small mb-3">Per richieste private o collaborazioni scrivi direttamente.</p>
-            <a href="mailto:hello@example.com" class="btn btn-sm btn-outline-success">Scrivi una mail</a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="contact-card text-center p-4 rounded-4 border border-secondary border-opacity-25 h-100">
-            <i class="bi bi-chat-dots-fill fs-1 text-info mb-3 d-block"></i>
-            <h6 class="fw-semibold mb-2">Discussioni</h6>
-            <p class="text-secondary small mb-3">Unisciti alle GitHub Discussions per domande e idee.</p>
-            <a href="https://github.com/" target="_blank" class="btn btn-sm btn-outline-info">Partecipa</a>
-          </div>
+          <p class="text-secondary lead">Hai domande o idee? Siamo sempre disponibili sul nostro discord!</p>
         </div>
       </div>
 
-      <!-- Contact Form -->
+      <!-- Discord invite box -->
       <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="p-4 p-md-5 rounded-4 border border-secondary border-opacity-25" style="background: rgba(255,255,255,0.03);">
-            <h5 class="fw-semibold mb-4 text-center">Invia un messaggio</h5>
-            <form id="contactForm" novalidate>
-              <div class="mb-3">
-                <label for="name" class="form-label">Nome</label>
-                <input type="text" class="form-control bg-dark border-secondary text-light" id="name" placeholder="Il tuo nome" required />
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control bg-dark border-secondary text-light" id="email" placeholder="tua@email.com" required />
-              </div>
-              <div class="mb-4">
-                <label for="message" class="form-label">Messaggio</label>
-                <textarea class="form-control bg-dark border-secondary text-light" id="message" rows="4" placeholder="Scrivi qui..." required></textarea>
-              </div>
-              <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">
-                  <i class="bi bi-send me-2"></i>Invia messaggio
-                </button>
-              </div>
-              <div id="formSuccess" class="alert alert-success mt-3 d-none" role="alert">
-                <i class="bi bi-check-circle me-2"></i>Messaggio inviato! Ti risponderemo presto.
-              </div>
-            </form>
+        <div class="col-lg-6 col-md-8">
+          <div class="discord-box text-center p-5 rounded-4 border border-secondary border-opacity-25" style="background: rgba(88,101,242,0.08); border-color: rgba(88,101,242,0.3) !important;">
+            <div class="mb-4">
+              <i class="bi bi-discord" style="font-size: 4rem; color: #5865F2;"></i>
+            </div>
+            <h4 class="fw-bold mb-2">Unisciti al nostro Discord</h4>
+            <p class="text-secondary mb-4">
+              Supporto, aggiornamenti, suggerimenti e community di server FiveM.<br/>
+              Siamo qui per te — entra e fatti sentire!
+            </p>
+            <a href="https://discord.gg/HcXTurqnnR" target="_blank"
+               class="btn btn-lg px-5 py-3 fw-semibold"
+               style="background: #5865F2; color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; transition: transform 0.2s, box-shadow 0.2s;"
+               onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(88,101,242,0.4)';"
+               onmouseout="this.style.transform='';this.style.boxShadow='';">
+              <i class="bi bi-discord me-2"></i>Entra nel server
+            </a>
+            <div class="mt-4">
+              <code class="text-secondary small">discord.gg/HcXTurqnnR</code>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="footer py-5 bg-dark border-top border-secondary border-opacity-25">
