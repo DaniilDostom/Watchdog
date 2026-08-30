@@ -1,0 +1,191 @@
+/* ================================================
+   Watchdog – Custom Styles (Dark Mode)
+   ================================================ */
+
+/* ---- Google Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ---- Base ---- */
+:root {
+  --bs-body-font-family: 'Inter', system-ui, sans-serif;
+  --color-gradient-start: #0d6efd;
+  --color-gradient-end:   #6610f2;
+  --section-py: 5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px; /* navbar height offset */
+}
+
+body {
+  font-family: var(--bs-body-font-family);
+  background-color: #0d0d0d;
+  color: #e2e8f0;
+}
+
+/* ---- Gradient text ---- */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Navbar ---- */
+.navbar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #0d6efd !important;
+}
+
+/* ---- Hero ---- */
+.hero-section {
+  min-height: 100vh;
+  padding-top: 100px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(13,110,253,0.15) 0%, transparent 70%),
+    #0d0d0d;
+}
+
+.hero-title {
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.hero-badge {
+  display: inline-block;
+  border-radius: 50rem !important;
+  font-weight: 500;
+}
+
+/* ---- Stat cards ---- */
+.stat-card {
+  background: rgba(255,255,255,0.03);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(13,110,253,0.15);
+}
+
+/* ---- Section spacing ---- */
+.py-6 {
+  padding-top: var(--section-py);
+  padding-bottom: var(--section-py);
+}
+
+.bg-dark-subtle {
+  background-color: #111 !important;
+}
+
+/* ---- Feature cards ---- */
+.feature-card {
+  background: rgba(255,255,255,0.02);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  border-color: rgba(13,110,253,0.4) !important;
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+/* ---- About ---- */
+.about-visual {
+  transition: transform 0.3s ease;
+}
+.about-visual:hover {
+  transform: translateY(-4px);
+}
+
+/* ---- Contact cards ---- */
+.contact-card {
+  background: rgba(255,255,255,0.02);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.contact-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+/* ---- Form controls ---- */
+.form-control::placeholder {
+  color: #4a5568;
+}
+
+.form-control:focus {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.2) !important;
+  background-color: #1a1a2e !important;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  font-weight: 500;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13,110,253,0.4);
+}
+
+.btn-outline-light:hover {
+  transform: translateY(-2px);
+}
+
+/* ---- Footer ---- */
+.footer a {
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: #0d6efd !important;
+}
+
+/* ---- Scroll reveal animation ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
+  }
+  :root {
+    --section-py: 3rem;
+  }
+}
+
