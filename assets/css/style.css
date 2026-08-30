@@ -206,13 +206,26 @@ body {
 }
 
 .carousel-caption {
-  background: rgba(13, 15, 20, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  bottom: 24px;
-  max-width: 80%;
+  background: rgba(10, 12, 18, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  bottom: 30px;
+  max-width: 650px;
   margin: 0 auto;
+  color: #ffffff !important;
+}
+
+.carousel-caption h5 {
+  color: #ffffff !important;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-top: 4px;
+}
+
+.carousel-caption p {
+  color: #d1d5db !important;
 }
 
 .carousel-indicators [data-bs-target] {
