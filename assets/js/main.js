@@ -117,5 +117,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(s => sectionObserver.observe(s));
 
+  /* --------------------------------------------------
+     6. Preview Carousel Tab Sync
+  -------------------------------------------------- */
+  const watchdogCarousel = document.getElementById('watchdogCarousel');
+  const previewTabs = document.querySelectorAll('.preview-tab-btn');
+
+  if (watchdogCarousel && previewTabs.length) {
+    watchdogCarousel.addEventListener('slide.bs.carousel', (e) => {
+      previewTabs.forEach((tab, index) => {
+        if (index === e.to) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+    });
+  }
+
 });
 
