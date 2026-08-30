@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SanctionAnalyser – Come Funziona | Watchdog</title>
+  <meta name="description" content="Guida e funzionamento dettagliato di SanctionAnalyser: architettura SaaS, integrazione FiveM in tempo reale, gestione staff e sicurezza dati per server FiveM." />
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://daniildostom.github.io/Watchdog/sanction-analyser.html" />
+  <meta property="og:title"       content="SanctionAnalyser – Guida e Funzionamento | Watchdog" />
+  <meta property="og:description" content="Come funziona SanctionAnalyser: architettura SaaS, gestione staff, verifica licenze FiveM in tempo reale e sicurezza anti-breach." />
+  <meta property="og:image"       content="https://daniildostom.github.io/Watchdog/assets/img/logo.png" />
+
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .step-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #0d6efd, #6610f2);
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(13,110,253,0.35);
+    }
+    .flow-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .flow-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(13, 110, 253, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(13, 110, 253, 0.15);
+    }
+    .code-box {
+      background: #090d16;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.9rem;
+      color: #7dd3fc;
+    }
+    .diagram-step {
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px solid rgba(13, 110, 253, 0.3);
+    }
+    .diagram-step::before {
+      content: '';
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #0d6efd;
+      box-shadow: 0 0 10px #0d6efd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark bg-opacity-90 shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="index.html">
+        <img src="assets/img/logo.png" alt="Watchdog" width="32" height="32" class="me-2" style="border-radius: 6px;">Watchdog
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto gap-1 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="index.html#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link active fw-bold text-primary" href="sanction-analyser.html"><i class="bi bi-shield-check me-1"></i>SanctionAnalyser</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#preview">Anteprima</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#contact">Contatti</a></li>
+          <li class="nav-item ms-lg-2">
+            <a href="https://discord.gg/HcXTurqnnR" target="_blank" class="btn btn-sm btn-primary px-3 rounded-pill">
+              <i class="bi bi-discord me-1"></i> Richiedi Accesso
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero-section text-center d-flex align-items-center" style="min-height: 75vh;">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="hero-badge badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-2 mb-4 fs-6">
+            <i class="bi bi-cpu me-1"></i> Architettura & Funzionamento
+          </div>
+          <h1 class="display-3 fw-bold mb-4 hero-title">
+            Come funziona <span class="text-gradient">SanctionAnalyser</span>
+          </h1>
+          <p class="lead text-secondary mb-5">
+            Una panoramica completa su come il sistema gestisce l'accesso del server owner, l'abilitazione automatica degli staffer, la verifica istantanea delle licenze FiveM in gioco e la protezione blindata da leak e vulnerabilità.
+          </p>
+          <div class="d-flex flex-wrap gap-3 justify-content-center">
+            <a href="#workflow" class="btn btn-primary btn-lg px-4">
+              Scopri il Workflow <i class="bi bi-arrow-down ms-1"></i>
+            </a>
+            <a href="#fivem-sync" class="btn btn-outline-light btn-lg px-4">
+              Integrazione FiveM <i class="bi bi-controller ms-1"></i>
+            </a>
+            <a href="#security" class="btn btn-outline-info btn-lg px-4">
+              Sicurezza & Anti-Leak <i class="bi bi-lock ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== WORKFLOW: OWNER & STAFF ==================== -->
+  <section id="workflow" class="py-6 bg-dark-subtle">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-2 mb-3">Modello SaaS Cloud</span>
+        <h2 class="display-5 fw-bold">Zero installazioni, massima semplicità</h2>
+        <p class="text-secondary lead col-lg-7 mx-auto">
+          Tutto il sistema è ospitato su infrastruttura cloud sicura. Tu e il tuo team accedete direttamente via browser con Discord, senza dover configurare server web o database complessi.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Card 1: Owner -->
+        <div class="col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <div class="step-badge mb-3">1</div>
+            <h4 class="fw-bold text-white mb-2">L'Owner compra la licenza</h4>
+            <p class="text-secondary small mb-3">Nessun file sorgente da scaricare. La licenza attiva il server nel sistema centrale Watchdog.</p>
+            <ul class="text-secondary small ps-3 mb-0" style="line-height: 1.8;">
+              <li>L'Owner esegue il <strong>Login con Discord</strong> nel portale.</li>
+              <li>Il sistema lo riconosce istantaneamente come <strong>Owner del Server</strong>.</li>
+              <li>Sblocca il pannello di amministrazione completo e la generazione della Secret API Key.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 2: Staff Management -->
+        <div class="col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <div class="step-badge mb-3">2</div>
+            <h4 class="fw-bold text-white mb-2">Gestione Staffer immediata</h4>
+            <p class="text-secondary small mb-3">L'Owner non deve creare account o password manuali per i suoi moderatori.</p>
+            <ul class="text-secondary small ps-3 mb-0" style="line-height: 1.8;">
+              <li>L'Owner inserisce il <strong>Discord ID</strong> dello staffer nella sezione <em>Staffers</em>.</li>
+              <li>Lo staffer apre il sito e clicca <strong>"Accedi con Discord"</strong>.</li>
+              <li>Watchdog verifica l'ID in tempo reale e garantisce l'accesso operativo al solo server assegnato.</li>
+              <li>Se lo staffer viene rimosso dalla lista, l'accesso viene revocato all'istante.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 3: Operatività -->
+        <div class="col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <div class="step-badge mb-3">3</div>
+            <h4 class="fw-bold text-white mb-2">Moderazione & Forensics</h4>
+            <p class="text-secondary small mb-3">Tutto lo staff opera da una dashboard grafica moderna, ricca di statistiche e storico.</p>
+            <ul class="text-secondary small ps-3 mb-0" style="line-height: 1.8;">
+              <li>Assegnazione rapida di <strong>Warn</strong>, <strong>Temp-Ban</strong> e <strong>Perm-Ban</strong>.</li>
+              <li>Calcolo automatico delle scadenze e rimozione temporale.</li>
+              <li>Storico cronologico di tutte le azioni e modifiche (Audit Log).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FIVEM INTEGRATION ==================== -->
+  <section id="fivem-sync" class="py-6">
+    <div class="container py-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2 mb-3">Integrazione In-Game</span>
+          <h2 class="display-5 fw-bold mb-4">Come funziona il controllo del Server FiveM</h2>
+          <p class="text-secondary lead mb-4">
+            Il server FiveM interagisce con Watchdog tramite una risorsa Lua leggera inserita nella cartella <code>resources/</code>. Ogni giocatore che tenta di entrare viene verificato prima ancora di spawnare.
+          </p>
+
+          <div class="d-flex flex-column gap-4">
+            <div class="diagram-step">
+              <h5 class="fw-bold text-white mb-1">1. Il Giocatore prova a connettersi</h5>
+              <p class="text-secondary small mb-0">Durante l'evento <code>playerConnecting</code>, lo script FiveM intercetta la licenza (es. <code>license:2d8f...</code>) e il Discord ID.</p>
+            </div>
+            <div class="diagram-step">
+              <h5 class="fw-bold text-white mb-1">2. Chiamata API con Secret Key</h5>
+              <p class="text-secondary small mb-0">Lo script contatta il backend Watchdog inviando la Secret API Key per verificare lo stato del giocatore.</p>
+            </div>
+            <div class="diagram-step">
+              <h5 class="fw-bold text-white mb-1">3. Decisione istantanea senza riavvii</h5>
+              <p class="text-secondary small mb-0">Se il giocatore è bannato (permanente o temporaneo ancora attivo), l'accesso viene bloccato a schermo con motivo e scadenza esatta. Altrimenti entra normalmente.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="flow-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-white fw-bold"><i class="bi bi-terminal me-2 text-primary"></i>Configurazione Risorsa FiveM</span>
+              <span class="badge bg-primary bg-opacity-20 text-primary">config.lua</span>
+            </div>
+            <div class="code-box mb-3">
+              <span class="text-secondary">-- Configurazione Watchdog Sync</span><br/>
+              Config = {}<br/><br/>
+              Config.ApiUrl = <span class="text-warning">"https://api.watchdogsystem.com"</span><br/>
+              Config.ServerKey = <span class="text-warning">"wd_live_9f83ac124b89e21..."</span><br/>
+              Config.KickMessage = <span class="text-warning">"Sei stato sanzionato da Watchdog."</span>
+            </div>
+            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25">
+              <div class="d-flex gap-3">
+                <i class="bi bi-lightning-charge-fill text-warning fs-3"></i>
+                <div>
+                  <h6 class="text-white fw-bold mb-1">Sincronizzazione in tempo reale</h6>
+                  <p class="text-secondary small mb-0">Se uno staffer banna o sbanna un giocatore dalla dashboard web, l'effetto è immediato: non serve riavviare o ricaricare il server FiveM!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECURITY & ANTI-LEAK ==================== -->
+  <section id="security" class="py-6 bg-dark-subtle">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 px-3 py-2 mb-3">Protezione Totale</span>
+        <h2 class="display-5 fw-bold">Blindato contro Breach, Leak e Manomissioni</h2>
+        <p class="text-secondary lead col-lg-7 mx-auto">
+          La sicurezza dei dati della tua community e l'integrità del sistema sono al primo posto. Ecco le misure ingegnerizzate in Watchdog:
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <i class="bi bi-shield-lock-fill fs-1 text-danger mb-3 d-block"></i>
+            <h5 class="fw-bold text-white mb-2">Zero Leak del Codice</h5>
+            <p class="text-secondary small mb-0">
+              Essendo un'applicazione SaaS, il codice sorgente backend e la logica risiedono unicamente sui nostri server protetti. Nessun cliente o terzo ha accesso ai file sorgente o ai database interni.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <i class="bi bi-diagram-3-fill fs-1 text-primary mb-3 d-block"></i>
+            <h5 class="fw-bold text-white mb-2">Isolamento Multi-Tenant</h5>
+            <p class="text-secondary small mb-0">
+              I dati di ogni server sono rigorosamente separati: nessun amministratore o moderatore può visualizzare, cercare o interferire con i registri di altri server.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <i class="bi bi-key-fill fs-1 text-warning mb-3 d-block"></i>
+            <h5 class="fw-bold text-white mb-2">Autenticazione Crittografata</h5>
+            <p class="text-secondary small mb-0">
+              Accesso sicuro tramite protocollo OAuth2 di Discord con sessioni crittografate, chiavi API uniche per ogni server FiveM e token con rotazione sicura.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <i class="bi bi-speedometer fs-1 text-info mb-3 d-block"></i>
+            <h5 class="fw-bold text-white mb-2">Anti-DDoS & Rate Limiting</h5>
+            <p class="text-secondary small mb-0">
+              Protezione integrata contro attacchi di forza bruta e spam di richieste, con limiti intelligenti per IP e filtri WAF Cloudflare enterprise.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <i class="bi bi-journal-check fs-1 text-success mb-3 d-block"></i>
+            <h5 class="fw-bold text-white mb-2">Audit Log Inviolabile</h5>
+            <p class="text-secondary small mb-0">
+              Ogni sanzione, modifica, rimozione o accesso viene registrato con timestamp e identificativo del moderatore, impedendo abusi di potere interni allo staff.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="flow-card p-4 h-100">
+            <i class="bi bi-cloud-arrow-up-fill fs-1 text-secondary mb-3 d-block"></i>
+            <h5 class="fw-bold text-white mb-2">Backup Automatici Continui</h5>
+            <p class="text-secondary small mb-0">
+              Salvataggi periodici ridondati del database con snapshot giornalieri, proteggendo il tuo server da perdite accidentali di dati o corruzioni.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="py-6">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-2 mb-3">FAQ</span>
+        <h2 class="display-5 fw-bold">Domande Frequenti</h2>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="accordion accordion-flush" id="faqAccordion">
+
+            <div class="accordion-item bg-transparent border-secondary border-opacity-25 mb-3">
+              <h2 class="accordion-header">
+                <button class="accordion-button bg-dark-subtle text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  1. Cosa deve fare l'owner dopo aver acquistato Watchdog?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary">
+                  Basta accedere al sito con il proprio account Discord. La dashboard sarà già attiva e configurata. Da lì potrà aggiungere i propri staffer e copiare la Secret API Key da inserire nel file di configurazione FiveM.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item bg-transparent border-secondary border-opacity-25 mb-3">
+              <h2 class="accordion-header">
+                <button class="accordion-button bg-dark-subtle text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  2. Come fanno i moderatori ad accedere al pannello?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary">
+                  L'owner aggiunge il Discord ID del moderatore nella lista "Staffers". A quel punto il moderatore va sul sito, clicca "Accedi con Discord" e viene automaticamente autorizzato a gestire solo quel server.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item bg-transparent border-secondary border-opacity-25 mb-3">
+              <h2 class="accordion-header">
+                <button class="accordion-button bg-dark-subtle text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  3. Che succede se scade un ban temporaneo?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary">
+                  Watchdog calcola con precisione di millisecondi la data e l'ora esatta di scadenza. Nel momento in cui il tempo scade, la verifica FiveM restituisce esito positivo e il giocatore può rientrare senza che lo staff debba fare nulla a mano.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item bg-transparent border-secondary border-opacity-25 mb-3">
+              <h2 class="accordion-header">
+                <button class="accordion-button bg-dark-subtle text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  4. Il codice sorgente o il database possono essere rubati?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary">
+                  No. Grazie all'architettura SaaS centralizzata, i server di gioco e i browser interagiscono solo tramite API crittografate. I file di codice, le logiche interne e i database risiedono esclusivamente sul cloud protetto di Watchdog.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA SECTION ==================== -->
+  <section class="py-6 bg-dark-subtle text-center">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="p-5 rounded-4 border border-primary border-opacity-25" style="background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(13,110,253,0.2) 0%, rgba(13,110,253,0.02) 100%);">
+            <img src="assets/img/logo.png" alt="Watchdog" width="64" height="64" class="mb-4" style="border-radius: 14px; box-shadow: 0 0 24px rgba(13,110,253,0.5);">
+            <h2 class="display-6 fw-bold mb-3">Porta Watchdog nel tuo server</h2>
+            <p class="lead text-secondary mb-4">
+              Richiedi una demo o attiva subito una licenza per la tua community. Entra nel nostro Discord ufficiale per maggiori dettagli e supporto diretto.
+            </p>
+            <a href="https://discord.gg/HcXTurqnnR" target="_blank" class="btn btn-primary btn-lg px-5 py-3 rounded-pill fw-semibold">
+              <i class="bi bi-discord me-2"></i>Entra nel Discord Ufficiale
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer py-5 bg-dark border-top border-secondary border-opacity-25">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <a class="navbar-brand fw-bold fs-5" href="index.html">
+            <img src="assets/img/logo.png" alt="Watchdog" width="28" height="28" class="me-2" style="border-radius: 6px;">Watchdog
+          </a>
+          <p class="text-secondary small mt-2 mb-0">Semplice. Potente.</p>
+        </div>
+        <div class="col-md-4 text-center mb-3 mb-md-0">
+          <div class="d-flex gap-3 justify-content-center">
+            <a href="index.html" class="text-secondary text-decoration-none small hover-primary">Home</a>
+            <a href="sanction-analyser.html" class="text-primary text-decoration-none small fw-semibold">SanctionAnalyser</a>
+            <a href="index.html#features" class="text-secondary text-decoration-none small">Features</a>
+            <a href="index.html#preview" class="text-secondary text-decoration-none small">Anteprima</a>
+            <a href="https://discord.gg/HcXTurqnnR" target="_blank" class="text-secondary text-decoration-none small">Discord</a>
+          </div>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <p class="text-secondary small mt-2 mb-0">&copy; 2026 Watchdog. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
